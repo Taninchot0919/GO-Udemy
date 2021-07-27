@@ -1,25 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
-func main() {
-	var myString string
-	myString = "Green"
-
-	fmt.Println("myString is set to", myString)
-
-	changeUsingPointer(&myString) // การใช้แบบนี้เหมือนเป็นการส่งค่า memmory
-	fmt.Println(myString)
+type User struct{
+	Firstname string
+	Lastname string
+	PhoneNumber string
+	Age int
+	BirthDate time.Time
 }
-
-// ถ้าหากเราไม่เปลี่ยนไปใช้ pointer ค่ามันไม่ได้เปลี่ยนไปจริงๆ
-// โดยการทำแบบนี้เนี่ยทำให้ function นี้ไม่ต้อง return
-func changeUsingPointer(s *string) { // รอรับค่า memmory
-	// เหมือนเราแค่เอา memory มาเปลี่ยนค่าตรงๆเลย
-	fmt.Println("s is", s)
-	fmt.Println("*s is", *s)
-	fmt.Println("&s is", &s)
-
-	newValue := "Red"
-	*s = newValue
+func main() {
+	user := User{
+		Firstname: "Taninchot",
+		Lastname: "Phuwaloertthiwat",
+		PhoneNumber: "0950385146",
+		Age: 20,
+	}
+	fmt.Println(user.Firstname,user.Lastname)
 }
