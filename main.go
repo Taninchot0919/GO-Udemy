@@ -3,22 +3,23 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Hello, world")
+	var myString string
+	myString = "Green"
 
-	var whatToSay string
-	var i int
+	fmt.Println("myString is set to", myString)
 
-	whatToSay = "Taninchot"
-	i = 5
-
-	fmt.Println(whatToSay)
-	fmt.Println("i is set to", i)
-
-	whatWasSaid, theOtherWasSaid := saySomething()
-
-	fmt.Println("The function return : ", whatWasSaid, " and ", theOtherWasSaid)
+	changeUsingPointer(&myString) // การใช้แบบนี้เหมือนเป็นการส่งค่า memmory
+	fmt.Println(myString)
 }
 
-func saySomething() (string, string) {
-	return "something function", "2nd from something function"
+// ถ้าหากเราไม่เปลี่ยนไปใช้ pointer ค่ามันไม่ได้เปลี่ยนไปจริงๆ
+// โดยการทำแบบนี้เนี่ยทำให้ function นี้ไม่ต้อง return
+func changeUsingPointer(s *string) { // รอรับค่า memmory
+	// เหมือนเราแค่เอา memory มาเปลี่ยนค่าตรงๆเลย
+	fmt.Println("s is", s)
+	fmt.Println("*s is", *s)
+	fmt.Println("&s is", &s)
+
+	newValue := "Red"
+	*s = newValue
 }
