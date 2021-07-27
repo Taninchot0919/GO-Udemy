@@ -2,22 +2,27 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
-type User struct{
+type myStruct struct {
 	Firstname string
-	Lastname string
-	PhoneNumber string
-	Age int
-	BirthDate time.Time
 }
+
+// เราจะเรียก (m *myStruct) ว่า receiver
+// เหมือนว่ามันจะลิ้งกับ struct ที่เราสร้างขึ้นมาเลย ลองดูจากตัวอย่างที่เรารันจะทำให้เราเห็นภาพได้มากขึ้น
+func (m *myStruct) printFirstName() string {
+	return m.Firstname
+}
+
 func main() {
-	user := User{
-		Firstname: "Taninchot",
-		Lastname: "Phuwaloertthiwat",
-		PhoneNumber: "0950385146",
-		Age: 20,
+	var myVar myStruct
+	myVar.Firstname = "Taninchot"
+
+	myVar2 := myStruct{
+		Firstname: "Taninchot2",
 	}
-	fmt.Println(user.Firstname,user.Lastname)
+
+	fmt.Println("myVar is set to :", myVar.printFirstName())
+	fmt.Println("myVar2 is set to :", myVar2.printFirstName())
+
 }
