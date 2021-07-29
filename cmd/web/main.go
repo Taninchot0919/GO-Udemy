@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -16,13 +15,21 @@ func main() {
 	var app config.AppConfig
 
 	tc, err := render.CreateTemplateCache()
+	
 	if err != nil {
 		log.Fatal("cannot create template cache")
 	}
 	app.TemplateCache = tc
-	http.HandleFunc("/", handlers.Home)
-	http.HandleFunc("/about", handlers.About)
+	app.UseCache = false
 
-	fmt.Printf(fmt.Sprintf("Staring application on port %s", portNumber))
+	repo := handlers.NewRepo(&app)
+
+	handlers.NewHandlers(repo)
+
+	render.NewTemplates(&app)
+
+	http.HandleFunc("/", handlers.Repo.Home)
+	http.HandleFunc("/about", handlers.Repo.About)
+
 	_ = http.ListenAndServe(portNumber, nil)
 }
