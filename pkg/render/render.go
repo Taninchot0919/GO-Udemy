@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/taninchot0919/learning-go/pkg/config"
+	"github.com/taninchot0919/learning-go/pkg/models"
 )
 
 var functions = template.FuncMap{}
@@ -19,9 +20,14 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
 
+	return td
+}
+
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
+
 	if app.UseCache {
 		tc = app.TemplateCache
 	} else {
@@ -35,18 +41,15 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	td = AddDefaultData(td)
+
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 	if err != nil {
 		fmt.Println("Error writing template to browser", err)
 	}
 
-	parsedTemplate, _ := template.ParseFiles("./templates/" + tmpl)
-	err = parsedTemplate.Execute(w, nil)
-	if err != nil {
-		fmt.Println("error parsing template:", err)
-	}
 }
 
 func CreateTemplateCache() (map[string]*template.Template, error) {
